@@ -8,6 +8,7 @@
 
     <!-- Include only if your app benefits from precise location access. -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
 
 
@@ -23,7 +24,7 @@
         tools:targetApi="31">
     <service
         android:name=".MainActivity"
-        android:foregroundServiceType="location" >
+        android:foregroundServiceType="location">
     <!-- Any inner elements would go here. -->
     </service>
 
