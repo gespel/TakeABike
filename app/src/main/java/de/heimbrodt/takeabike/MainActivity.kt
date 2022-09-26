@@ -46,8 +46,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //========================================================================
-        MainActivity.fusedLocationClient = getFusedLocationProviderClient(this)
-        TakeABike.fLCinitialized = true
+        if(TakeABike.fLCinitialized == false) {
+            MainActivity.fusedLocationClient = getFusedLocationProviderClient(this)
+            TakeABike.fLCinitialized = true
+        }
         binding.maxSpeedTextView.text = "0.0"
         TakeABike.setTABBinding(binding)
         //========================================================================
