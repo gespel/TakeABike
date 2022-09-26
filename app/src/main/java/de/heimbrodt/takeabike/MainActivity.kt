@@ -1,5 +1,6 @@
 package de.heimbrodt.takeabike
 
+import android.content.Context
 import android.location.Location
 import android.os.Bundle
 import android.os.Handler
@@ -19,6 +20,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationServices.getFusedLocationProviderClient
 import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
@@ -35,15 +37,20 @@ class MainActivity : AppCompatActivity() {
 
 
 
-
+    companion object {
+        public lateinit var fusedLocationClient: FusedLocationProviderClient
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        TakeABike.setTABBinding(binding)
         setContentView(binding.root)
-        binding.maxSpeedTextView.text = "0.0"
-        TakeABike.p.setTABBinding(binding)
 
+        //========================================================================
+        MainActivity.fusedLocationClient = getFusedLocationProviderClient(this)
+        TakeABike.fLCinitialized = true
+        binding.maxSpeedTextView.text = "0.0"
+        TakeABike.setTABBinding(binding)
+        //========================================================================
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

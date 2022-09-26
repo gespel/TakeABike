@@ -11,7 +11,9 @@ class TABPlayer() {
     }
     public fun tickExp(distance: Float) {
         exp += (distance).toInt()
+        binding.levelTextView.text = "Level: $level"
         binding.expTextView.text = "Exp: $exp"
+        this.updateLevel()
     }
     private fun updateLevel() {
         if(exp >= level*100+(level*level*0.5)) {
