@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.os.Looper
 import android.renderscript.RenderScript.Priority
+import android.util.Log
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -46,10 +47,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //========================================================================
-        if(TakeABike.fLCinitialized == false) {
-            MainActivity.fusedLocationClient = getFusedLocationProviderClient(this)
-            TakeABike.fLCinitialized = true
+        if(!TakeABike.fLCinitialized) {
+
         }
+        MainActivity.fusedLocationClient = getFusedLocationProviderClient(this)
+        TakeABike.fLCinitialized = true
+        Toast.makeText(this, TakeABike.fLCinitialized.toString(), 10)
+        //Log.d(TakeABike.fLCinitialized.toString(), TakeABike.fLCinitialized.toString())
         binding.maxSpeedTextView.text = "0.0"
         TakeABike.setTABBinding(binding)
         //========================================================================

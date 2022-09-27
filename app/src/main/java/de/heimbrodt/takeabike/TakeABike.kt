@@ -5,11 +5,13 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Handler
 import android.os.HandlerThread
+import android.widget.Toast
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import de.heimbrodt.takeabike.databinding.ActivityMainBinding
+import java.net.Socket
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -19,6 +21,7 @@ public class TakeABike : Application() {
     override fun onCreate() {
         super.onCreate()
         TakeABike.startMainHandler()
+        TakeABike.startNetworkHandler()
     }
     companion object {
         var fLCinitialized = false
@@ -26,13 +29,32 @@ public class TakeABike : Application() {
         var maxSpeed = 0.0f
         var p: TABPlayer = TABPlayer()
         lateinit var binding: ActivityMainBinding
-
         lateinit var a: Location
+
         public fun setTABBinding(binding: ActivityMainBinding) {
             this.binding = binding
             p.setTABBinding(Companion.binding)
         }
 
+        public fun startNetworkHandler() {
+            val networkHandlerThread = HandlerThread("NT")
+            networkHandlerThread.start()
+            var networkHandler = Handler(networkHandlerThread.looper)
+            networkHandler.post(object : Runnable {
+                override fun run() {
+                    try {
+                        val client = Socket("192.168.2.34", 9999)
+                        client.outputStream.write("Hello from the client!".toByteArray())
+                        client.getInputStream().read()
+                        client.close()
+                    }
+                    catch (e: java.lang.Exception) {
+                        //Toast.makeText(null, "Bla", 3)
+                    }
+                    networkHandler.postDelayed(this, 5000)
+                }
+            })
+        }
 
         public fun startMainHandler() {
 
