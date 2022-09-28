@@ -1,5 +1,6 @@
 package de.heimbrodt.takeabike
 
+import com.google.gson.Gson;
 import android.app.Application
 import android.location.Location
 import android.location.LocationManager
@@ -11,6 +12,7 @@ import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import de.heimbrodt.takeabike.databinding.ActivityMainBinding
+import java.lang.Exception
 import java.net.Socket
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -20,8 +22,8 @@ public class TakeABike : Application() {
     private lateinit var a: Location
     override fun onCreate() {
         super.onCreate()
-        TakeABike.startMainHandler()
-        TakeABike.startNetworkHandler()
+        startMainHandler()
+        startNetworkHandler()
     }
     companion object {
         var fLCinitialized = false
@@ -44,11 +46,14 @@ public class TakeABike : Application() {
                 override fun run() {
                     try {
                         val client = Socket("192.168.2.34", 9999)
-                        client.outputStream.write("Hello from the client!".toByteArray())
-                        client.getInputStream().read()
+                        val player = p.getPlayer()
+                        val pJson = Gson()
+                        var pJsonString = pJson.toJson(player)
+                        client.outputStream.write(pJsonString.toByteArray())
+                        //client.getInputStream().read()
                         client.close()
                     }
-                    catch (e: java.lang.Exception) {
+                    catch (e: Exception) {
                         //Toast.makeText(null, "Bla", 3)
                     }
                     networkHandler.postDelayed(this, 5000)
@@ -95,7 +100,7 @@ public class TakeABike : Application() {
                                             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                                         )
                                         distance += location.distanceTo(a)
-                                        TakeABike.p.tickExp(location.distanceTo(a))
+                                        p.tickExp(location.distanceTo(a))
                                         binding.distanceTextView.text = "Distance: $distance m"
                                         binding.counterTextView.text = x.toString()
                                         x++
