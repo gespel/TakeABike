@@ -16,6 +16,7 @@ import java.lang.Exception
 import java.net.Socket
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import de.heimbrodt.tabplayer.TABPlayer
 
 
 public class TakeABike : Application() {
@@ -35,7 +36,6 @@ public class TakeABike : Application() {
 
         public fun setTABBinding(binding: ActivityMainBinding) {
             this.binding = binding
-            p.setTABBinding(Companion.binding)
         }
 
         public fun startNetworkHandler() {
@@ -101,6 +101,8 @@ public class TakeABike : Application() {
                                         )
                                         distance += location.distanceTo(a)
                                         p.tickExp(location.distanceTo(a))
+                                        binding.expTextView.text = "Exp: ${p.getPlayer().exp}"
+                                        binding.levelTextView.text = "Level: ${p.getPlayer().level}"
                                         binding.distanceTextView.text = "Distance: $distance m"
                                         binding.counterTextView.text = x.toString()
                                         x++
