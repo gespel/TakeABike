@@ -1,34 +1,19 @@
 package de.heimbrodt.takeabike
 
-import android.content.Context
+import android.content.Intent
 import android.location.Location
 import android.os.Bundle
-import android.os.Handler
-import android.os.HandlerThread
-import android.os.Looper
-import android.renderscript.RenderScript.Priority
-import android.util.Log
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.navigation.ui.navigateUp
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationServices.getFusedLocationProviderClient
-import com.google.android.gms.tasks.CancellationToken
-import com.google.android.gms.tasks.CancellationTokenSource
-import com.google.android.gms.tasks.OnTokenCanceledListener
 import de.heimbrodt.takeabike.databinding.ActivityMainBinding
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
 
@@ -56,6 +41,11 @@ class MainActivity : AppCompatActivity() {
         //Log.d(TakeABike.fLCinitialized.toString(), TakeABike.fLCinitialized.toString())
         binding.maxSpeedTextView.text = "0.0"
         TakeABike.setTABBinding(binding)
+        binding.buttonProfile.setOnClickListener {
+            val x = ProfileActivity()
+            x.setContext(this)
+            startActivity(Intent(this, ProfileActivity::class.java))
+        }
         //========================================================================
     }
 

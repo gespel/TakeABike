@@ -60,7 +60,6 @@ public class TakeABike : Application() {
                 }
             })
         }
-
         public fun startMainHandler() {
 
             val mainHandlerThread = HandlerThread("HT")
@@ -89,11 +88,11 @@ public class TakeABike : Application() {
                                 if (location == null)
                                 else {
                                     if(::a.isInitialized) {
-                                        if(location.distanceTo(a) > maxSpeed) {
-                                            maxSpeed = location.distanceTo(a)
+                                        if(location.speed > maxSpeed) {
+                                            maxSpeed = location.speed
                                             binding.maxSpeedTextView.text = "Max Speed: " + maxSpeed + " m/s"
                                         }
-                                        binding.msTextView.text = "Speed: " + location.distanceTo(a).toString() +" m/s"
+                                        binding.msTextView.text = "Speed: " + location.speed.toString() +" m/s"
                                         binding.latitudeTextView.text = "Latitude: " + location.latitude.toString()
                                         binding.longitudeTextView.text = "Logitude: " + location.longitude.toString()
                                         binding.timeTextView.text = "Time: " + LocalDateTime.now().format(
